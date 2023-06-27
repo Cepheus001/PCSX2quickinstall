@@ -73,7 +73,8 @@ function configmenu () {
 	3 - Configure Network
 	4 - Graphics
 	5 - Run PCSX2
-	6 - Exit"
+	6 - Manage Directory
+	7 - Exit"
 	read -p "Which version of PCSX2 would you like to install?" choice02
 
 	case $choice02 in
@@ -106,7 +107,7 @@ function configmenu () {
 					break;;
 			esac
 			break;;
-		6 ) echo 'Exit';
+		7 ) echo 'Exit';
 			clear;
 			read -p 'Are you sure you want to exit? [Y/N] ' yn
 				case $yn in
@@ -125,6 +126,8 @@ function configmenu () {
 		    break;;
 	esac
 }
+
+# explore directory here
 
 # configuration methods here for flatpak
 <<COMMENT
@@ -149,13 +152,15 @@ function addroms () {
 		[Yy] ) echo 'Working...';
 			if [[ ! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms" ]];
 			then
-				sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i 's/RecursivePaths =/$enterRoms/g' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.in
+				# $RecusrivePathsGames = cat $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini | grep -o "[GameList]" || grep -o "RecursivePaths"
+				sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i '401 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
 			else
-				sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i 's/RecursivePaths =/$enterRoms/g' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+				sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i '401 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
 			fi
 			configmenu
 			break;;
-		[Nn] ) addroms;
+		[Nn] ) 
+			addroms
 			break;;
 	esac
 
