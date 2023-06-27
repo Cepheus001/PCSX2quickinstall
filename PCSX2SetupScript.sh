@@ -1,18 +1,27 @@
 #!/bin/bash
 
-# configuration methods here 
+#config menu here
 
 function configmenu () {
 	echo "Install one of the following versions of PCSX2:
-	1 - Configure Network
-	2 - Add BIOS files
-	3 - Add ROMS
-	4 - Configurations Menu
+	1 - Add BIOS files
+	2 - Add ROMS
+	3 - Configure Network
+	4 - Graphics
 	5 - Run PCSX2
 	6 - Exit"
 	read -p "Which version of PCSX2 would you like to install?" choice02
 
 	case $choice02 in
+		1 ) echo 'Installing BIOS files...';
+			addbios
+			break;;
+		2 ) echo 'Adding Roms....';
+			addroms
+			break;;
+		3 ) echo 'Configuring Network....';
+			networking
+			break;;
 		6 ) echo 'Exit';
 			clear;
 			read -p 'Are you sure you want to exit? [Y/N] ' yn
@@ -29,6 +38,12 @@ function configmenu () {
 		    configmenu
 		    break;;
 		esac
+}
+
+# configuration methods here 
+
+function configgraphics () {
+	
 }
 
 function addroms () {
