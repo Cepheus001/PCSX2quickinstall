@@ -20,7 +20,7 @@ function main () {
 			install_pcsx2viaapt
 			break;;
 		2 ) echo 'Ok, installing the Flatpak version of PCSX2.';
-			install_pcsx2viaflatapak
+			install_pcsx2viaflatpak
 			break;;
 		3 ) echo 'Ok, Installing Flatpak with PCSX2.';
 			install_flatpak;
@@ -153,9 +153,9 @@ function addroms () {
 			if [[ ! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms" ]];
 			then
 				# $RecusrivePathsGames = cat $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini | grep -o "[GameList]" || grep -o "RecursivePaths"
-				sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i '401 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+				sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo cp -r "$enterRoms" $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i "405 i /[GameList]/406 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms" $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
 			else
-				sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i '401 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+				sudo cp -r "$enterRoms" "$HOME/.var/app/net.pcsx2.PCSX2/roms" ; sudo sed -i "405 i /[GameList]/406 i RecursivePaths = $HOME/.var/app/net.pcsx2.PCSX2/roms" $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
 			fi
 			configmenu
 			break;;
