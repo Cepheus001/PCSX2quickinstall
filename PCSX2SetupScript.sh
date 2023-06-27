@@ -140,8 +140,24 @@ COMMENT
 
 function addroms () {
 	read -p "Enter the Directory in which your roms are stored to be copied over to the install directory: " enterRoms
-	sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo mv -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i 's/RecursivePaths =/$enterRoms/g' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
-	configmenu
+
+	echo $enterRoms
+	echo $HOME
+	read -p "Is this the correct directory? [Y/N]" yn7
+
+	case $yn7 in
+		[Yy] ) echo 'Working...';
+			if [[ ! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms" ]];
+			then
+				sudo mkdir $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i 's/RecursivePaths =/$enterRoms/g' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.in
+			else
+				sudo cp -r $enterRoms $HOME/.var/app/net.pcsx2.PCSX2/roms ; sudo sed -i 's/RecursivePaths =/$enterRoms/g' $HOME/.var/app/net.pcsx2.PCSX2/config/PCSX2/inis/PCSX2.ini
+			fi
+			configmenu
+			break;;
+		[Nn] ) addroms;
+			break;;
+	esac
 
 }
 
@@ -160,6 +176,8 @@ function addbios () {
 	esac
 
 }
+
+# configuration methods for apt.
 
 # Launch methods here for flatpak and apt.
 
@@ -206,12 +224,14 @@ function install_flatpak () {
 
 function install_pcsx2viaapt () {
 	sudo apt install pcsx2 -y
+	main
 }
 
 function install_pcsx2viaflatpak () {
 
     echo 'Installing PCSX2 now via Flatpak....';
     sudo flatpak install net.pcsx2.PCSX2 -y;
+	main
 
 }
 
