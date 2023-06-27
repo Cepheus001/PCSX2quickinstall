@@ -5,6 +5,7 @@
 # Main function here.
 
 function main () {
+	clear
 	echo "Install one of the following versions of PCSX2:
 	1 - Install apt version.
 	2 - Install Flatpak version.
@@ -65,6 +66,7 @@ function main () {
 
 
 function configmenu () {
+	clear
 	echo "Install one of the following versions of PCSX2:
 	1 - Add BIOS files
 	2 - Add ROMS
@@ -85,7 +87,7 @@ function configmenu () {
 			networking
 			break;;
 		4 ) echo 'Configuring Graphics....';
-			configgraphics
+			configgraphics;
 			break;;
 		5 ) echo 'Ok, running PCSX2.';
 			read -p 'Flatpak or apt?
