@@ -6,14 +6,14 @@
 
 function main () {
 	clear
-	echo "Install one of the following versions of PCSX2:
-	1 - Install apt version.
-	2 - Install Flatpak version.
-	3 - Install Flatpak along with PCSX2.
-	4 - Configurations Menu
-	5 - Run PCSX2
-	6 - Exit"
-	read -p "Which version of PCSX2 would you like to install?" choice01
+	printf " %-4s \nInstall one of the following versions of PCSX2:\n
+	1 - Install apt version.\n
+	2 - Install Flatpak version.\n
+	3 - Install Flatpak along with PCSX2.\n
+	4 - Configurations Menu\n
+	5 - Run PCSX2\n
+	6 - Exit\n\n"
+	read -p "Which version of PCSX2 would you like to install? " choice01
 	
 	case $choice01 in
 		1 ) echo 'Ok, installing apt version of PCSX2.';
@@ -28,10 +28,8 @@ function main () {
 		4 ) echo 'Ok, choosing the config menu. ';
 			configmenu;;
 		5 ) echo 'Ok, running PCSX2.';
-			read -p 'Flatpak or apt?
-			1 - flatpak
-			2 - apt
-			3 - return home' yn6
+			printf "%-4s \n1 - flatpak\n2 - apt\n3 - return home\n";
+			read -p "Flatpak or apt? " yn6;
 			case $yn6 in
 				1 ) clear;
 					launchpcsx2flatpak
@@ -67,15 +65,17 @@ function main () {
 
 function configmenu () {
 	clear
-	echo "Install one of the following versions of PCSX2:
-	1 - Add BIOS files
-	2 - Add ROMS
-	3 - Configure Network
-	4 - Graphics
-	5 - Run PCSX2
-	6 - Manage Directory
-	7 - Exit"
-	read -p "Which version of PCSX2 would you like to install?" choice02
+	printf " %-4s \nInstall one of the following versions of PCSX2:\n
+	1 - Add BIOS files\n
+	2 - Add ROMS\n
+	3 - Configure Network\n
+	4 - Graphics\n
+	5 - Run PCSX2\n
+	6 - Manage Directory\n
+	7 - View Roms\n
+	8 - Main Menu\n
+	9 - Exit\n\n"
+	read -p "Which version of PCSX2 would you like to install? " choice02
 
 	case $choice02 in
 		1 ) echo 'Installing BIOS files...';
@@ -91,10 +91,9 @@ function configmenu () {
 			configgraphics;
 			break;;
 		5 ) echo 'Ok, running PCSX2.';
-			read -p 'Flatpak or apt?
-			1 - flatpak
-			2 - apt
-			3 - return home' yn6
+			clear;
+			printf "%-4s \n1 - flatpak\n2 - apt\n3 - return home\n";
+			read -p "Flatpak or apt? " yn6;
 			case $yn6 in
 				1 ) clear;
 					launchpcsx2flatpak
@@ -105,9 +104,28 @@ function configmenu () {
 				3 ) clear;
 					main
 					break;;
+				* ) echo 'Invalid input';
+					main
+					break;;
 			esac
 			break;;
-		7 ) echo 'Exit';
+		6 ) echo 'Opening file explorer....';
+			nautilus $HOME/.var/app/net.pcsx2.PCSX2;
+			break;;
+		7 ) echo 'Viewing Roms';
+				if [[! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms"]];
+				then
+					read -t 7 -N 1 'echo "The roms folder currently does not exist"'
+					configmenu
+				else
+					ls -lahr $HOME/.var/app/net.pcsx2.PCSX2/roms
+					read -t 7 -N 1 -e "/n"
+					configmenu
+				fi
+			break;;
+		8 ) main;
+			break;;
+		9 ) echo 'Exit';
 			clear;
 			read -p 'Are you sure you want to exit? [Y/N] ' yn
 				case $yn in
@@ -119,7 +137,7 @@ function configmenu () {
 						main
 						break;;
 				esac
-				break;;
+			break;;
 		* ) echo 'invalid response';
 		    clear;
 		    configmenu
