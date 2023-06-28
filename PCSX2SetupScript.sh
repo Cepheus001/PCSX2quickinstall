@@ -112,14 +112,15 @@ function configmenu () {
 		6 ) echo 'Opening file explorer....';
 			nautilus $HOME/.var/app/net.pcsx2.PCSX2;
 			break;;
-		7 ) echo 'Viewing Roms';
-				if [[! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms"]];
+		7 ) printf '%4s \nViewing Roms\n\n';
+				if [[ ! -d "$HOME/.var/app/net.pcsx2.PCSX2/roms" ]];
 				then
-					read -t 7 -N 1 'echo "The roms folder currently does not exist"'
+					read -t 7 -N 1 -p 'echo "The roms folder currently does not exist"'
 					configmenu
 				else
 					ls -lahr $HOME/.var/app/net.pcsx2.PCSX2/roms
-					read -t 7 -N 1 -e "/n"
+					echo -e "\n"
+					read -t 7 -N 1 -e -p "Press any key to continue...."
 					configmenu
 				fi
 			break;;
